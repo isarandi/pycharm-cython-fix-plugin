@@ -1,20 +1,31 @@
 <idea-plugin>
     <id>com.cythonfix.cython-fix</id>
     <name>Cython-Fix</name>
-    <version>1.0</version>
-    <vendor>sarandi</vendor>
+    <version>0.1.0</version>
+    <vendor email="prog@istvansarandi.com">István Sárándi</vendor>
 
     <description><![CDATA[
-    Fixes PyCharm's built-in Cython parser and formatter bugs.
+    Fixes PyCharm's built-in Cython parser, formatter, and type resolution bugs.
 
     <b>Parser fixes:</b>
     <ul>
         <li>False "duplicate parameter name" error on <code>ndim=1</code> in <code>np.ndarray[np.float64_t, ndim=1]</code></li>
+        <li>False "duplicate parameter name" error on unnamed parameters in <code>cdef extern</code> declarations like <code>void f(char *, char *)</code></li>
     </ul>
 
     <b>Formatter fixes:</b>
     <ul>
         <li>Pointer declarations mangled: <code>float **x</code> → <code>float ** x</code></li>
+    </ul>
+
+    <b>Type resolution fixes:</b>
+    <ul>
+        <li>"Unexpected parameter" on <code>cdef class</code> constructors using <code>__cinit__</code> instead of <code>__init__</code></li>
+    </ul>
+
+    <b>Highlighting fixes:</b>
+    <ul>
+        <li>Docstrings in <code>cdef</code>/<code>cpdef</code> functions shown as plain strings instead of docstring coloring</li>
     </ul>
     ]]></description>
 
@@ -34,5 +45,18 @@
             language="Cython"
             implementationClass="com.cythonfix.formatter.FixedCythonFormattingModelBuilder"
             order="first"/>
+
+        <!-- Apply docstring highlighting in cdef/cpdef function bodies -->
+        <annotator language="Python"
+            implementationClass="com.cythonfix.annotator.CythonDocstringAnnotator"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="Pythonid">
+        <!-- Register UNNAMED_PARAMETER as a recognized parameter token -->
+        <dialectsTokenSetContributor
+            implementation="com.cythonfix.psi.FixedCythonTokenSetContributor"/>
+
+        <!-- Resolve __cinit__ parameters for cdef class constructor calls -->
+        <typeProvider implementation="com.cythonfix.type.CythonCinitTypeProvider" order="first"/>
     </extensions>
 </idea-plugin>

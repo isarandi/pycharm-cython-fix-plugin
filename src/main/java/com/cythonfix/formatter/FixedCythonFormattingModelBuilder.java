@@ -166,10 +166,34 @@ public final class FixedCythonFormattingModelBuilder extends PythonFormattingMod
 
         @Override
         public @Nullable Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
-            if (shouldRemoveSpaceBetween(child1, child2)) {
+            if (shouldRemoveSpaceBetween(child1, child2) || shouldRemoveSpaceInTypecast(child1, child2)) {
                 return Spacing.createSpacing(0, 0, 0, false, 0);
             }
             return delegate.getSpacing(unwrap(child1), unwrap(child2));
+        }
+
+        /**
+         * Inside a TYPECAST_EXPRESSION ({@code <Type>}), remove space after {@code <} and before {@code >}.
+         *
+         * <p>The SpacingBuilder rules for this don't take effect because the base Python
+         * formatter treats {@code <} and {@code >} as comparison operators and forces
+         * spaces around them at the Block level.
+         */
+        private boolean shouldRemoveSpaceInTypecast(@Nullable Block child1, @NotNull Block child2) {
+            ASTNode parentNode = getASTNode(this);
+            if (parentNode == null || parentNode.getElementType() != CythonElementTypes.TYPECAST_EXPRESSION) {
+                return false;
+            }
+
+            if (child1 != null) {
+                ASTNode leftNode = getASTNode(child1);
+                if (leftNode != null && leftNode.getElementType() == PyTokenTypes.LT) {
+                    return true;
+                }
+            }
+
+            ASTNode rightNode = getASTNode(child2);
+            return rightNode != null && rightNode.getElementType() == PyTokenTypes.GT;
         }
 
         @Override

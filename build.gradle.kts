@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.cythonfix"
-version = "1.0-SNAPSHOT"
+version = "0.1.0"
 
 // Use local PyCharm for faster local dev, download for CI
 val useLocalPycharm = file("/home/sarandi/.local/share/JetBrains/Toolbox/apps/pycharm-professional").exists()
@@ -26,12 +26,7 @@ dependencies {
         }
         bundledPlugin("PythonCore")
         bundledPlugin("Pythonid")
-        testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
-        // Also make bundled plugins available in tests
-        testBundledPlugin("PythonCore")
-        testBundledPlugin("Pythonid")
     }
-    testImplementation("junit:junit:4.13.2")
 }
 
 tasks {

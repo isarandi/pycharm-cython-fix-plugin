@@ -307,6 +307,14 @@ public class FixedCythonDeclParsing extends CythonDeclParsing {
         return checkMatches(PyTokenTypes.IDENTIFIER, PyParsingBundle.message("PARSE.expected.identifier"));
     }
 
+    /**
+     * Public wrapper for parseNameDecl, accessible from FixedCythonFunctionParsing
+     * (which is in a different package).
+     */
+    public DeclaratorType parseNameDeclPublic(boolean requireEmpty, boolean requireNonEmpty, boolean assignable) {
+        return parseNameDecl(requireEmpty, requireNonEmpty, assignable);
+    }
+
     @Override
     protected IElementType getReferenceType() {
         return CythonElementTypes.REFERENCE_EXPRESSION;
