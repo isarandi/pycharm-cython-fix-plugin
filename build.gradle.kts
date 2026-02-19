@@ -7,7 +7,8 @@ group = "com.cythonfix"
 version = "0.2.0"
 
 // Use local PyCharm for faster local dev, download for CI
-val useLocalPycharm = file("/home/sarandi/.local/share/JetBrains/Toolbox/apps/pycharm-professional").exists()
+val pycharmLocalPath = providers.gradleProperty("pycharmLocalPath").orNull
+val useLocalPycharm = pycharmLocalPath != null && file(pycharmLocalPath).exists()
         && System.getenv("CI") == null
 
 repositories {
@@ -20,7 +21,7 @@ repositories {
 dependencies {
     intellijPlatform {
         if (useLocalPycharm) {
-            local("/home/sarandi/.local/share/JetBrains/Toolbox/apps/pycharm-professional")
+            local(pycharmLocalPath!!)
         } else {
             pycharm("2025.3")
         }
