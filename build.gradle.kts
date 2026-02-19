@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.cythonfix"
-version = "0.1.0"
+version = "0.2.0"
 
 // Use local PyCharm for faster local dev, download for CI
 val useLocalPycharm = file("/home/sarandi/.local/share/JetBrains/Toolbox/apps/pycharm-professional").exists()
