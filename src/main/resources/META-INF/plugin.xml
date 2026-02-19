@@ -62,5 +62,9 @@
 
         <!-- Resolve __cinit__ parameters for cdef class constructor calls -->
         <typeProvider implementation="com.cythonfix.type.CythonCinitTypeProvider" order="first"/>
+
+        <!-- Resolve ctypedef/cdef names from included .pxi files -->
+        <pyReferenceResolveProvider
+            implementation="com.cythonfix.resolve.CythonIncludeResolveProvider"/>
     </extensions>
 </idea-plugin>
