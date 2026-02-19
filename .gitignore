@@ -9,3 +9,4 @@ out/
 gradle.properties
 
 *.class
+_internal/

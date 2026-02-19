@@ -46,6 +46,10 @@
             implementationClass="com.cythonfix.formatter.FixedCythonFormattingModelBuilder"
             order="first"/>
 
+        <!-- Register stub element type for unnamed Cython parameters -->
+        <stubElementTypeHolder class="com.cythonfix.psi.FixedCythonElementTypes"
+            externalIdPrefix="py.CYTHON_"/>
+
         <!-- Apply docstring highlighting in cdef/cpdef function bodies -->
         <annotator language="Python"
             implementationClass="com.cythonfix.annotator.CythonDocstringAnnotator"/>
