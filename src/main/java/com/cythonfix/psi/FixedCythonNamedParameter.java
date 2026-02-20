@@ -26,4 +26,14 @@ public class FixedCythonNamedParameter extends CythonNamedParameter {
         }
         return name;
     }
+
+    @Override
+    public boolean hasDefaultValue() {
+        // Type bracket parameters (e.g., map[void_ptr, void*]) are not real function
+        // parameters and never have default values. Without this override, the base
+        // implementation finds expression children (like the REFERENCE_EXPRESSION for
+        // void_ptr) and misidentifies them as default values, causing false
+        // "non-default parameter follows default parameter" warnings.
+        return false;
+    }
 }

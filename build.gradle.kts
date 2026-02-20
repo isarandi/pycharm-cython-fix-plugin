@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.cythonfix"
-version = "0.2.0"
+version = "0.3.0"
 
 // Use local PyCharm for faster local dev, download for CI
 val pycharmLocalPath = providers.gradleProperty("pycharmLocalPath").orNull

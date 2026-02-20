@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.cythonfix.cython-fix</id>
     <name>Cython-Fix</name>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <vendor email="prog@istvansarandi.com">István Sárándi</vendor>
 
     <description><![CDATA[
@@ -11,6 +11,8 @@
     <ul>
         <li>False "duplicate parameter name" error on <code>ndim=1</code> in <code>np.ndarray[np.float64_t, ndim=1]</code></li>
         <li>False "duplicate parameter name" error on unnamed parameters in <code>cdef extern</code> declarations like <code>void f(char *, char *)</code></li>
+        <li>False "duplicate parameter name" and "non-default parameter follows default parameter" errors on type bracket arguments like <code>map[void_ptr, void*]</code></li>
+        <li><code>sizeof()</code> with complex expressions like <code>sizeof(self.ptr[0].field)</code> no longer fails to parse</li>
     </ul>
 
     <b>Formatter fixes:</b>
@@ -28,6 +30,27 @@
         <li>Docstrings in <code>cdef</code>/<code>cpdef</code> functions shown as plain strings instead of docstring coloring</li>
     </ul>
     ]]></description>
+
+    <change-notes><![CDATA[
+    <b>0.3.0</b>
+    <ul>
+        <li>Fix <code>sizeof()</code> rejecting general expressions (e.g., <code>sizeof(self.ptr[0].field)</code>)</li>
+        <li>Fix false "duplicate parameter name" and "non-default parameter follows default parameter" errors on type bracket arguments like <code>map[void_ptr, void*]</code></li>
+    </ul>
+    <b>0.2.0</b>
+    <ul>
+        <li>Resolve <code>ctypedef</code>, <code>ctypedef fused</code>, <code>cdef struct</code> names from included <code>.pxi</code> files (previously showed as unresolved references)</li>
+        <li>Fix startup crash (<code>AssertionError</code> in <code>StubElementTypeHolderEP</code>)</li>
+    </ul>
+    <b>0.1.0</b>
+    <ul>
+        <li>Fix false "duplicate parameter name" on <code>ndim=1</code> in NumPy buffer syntax</li>
+        <li>Fix false "duplicate parameter name" on unnamed parameters in <code>cdef extern</code> declarations</li>
+        <li>Fix pointer declarations getting unwanted spaces (<code>float **x</code> → <code>float ** x</code>)</li>
+        <li>Fix "unexpected parameter" on <code>__cinit__</code> constructors</li>
+        <li>Fix docstrings in <code>cdef</code>/<code>cpdef</code> functions not getting docstring coloring</li>
+    </ul>
+    ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.python</depends>

@@ -1,5 +1,6 @@
 package com.cythonfix.parser;
 
+import com.cythonfix.psi.FixedCythonElementTypes;
 import com.intellij.lang.SyntaxTreeBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.python.pro.cython.CythonNames;
@@ -230,7 +231,11 @@ public class FixedCythonDeclParsing extends CythonDeclParsing {
                 }
             }
 
-            namedParameter.done(CythonElementTypes.NAMED_PARAMETER);
+            if (isKeywordArg) {
+                namedParameter.done(CythonElementTypes.NAMED_PARAMETER);
+            } else {
+                namedParameter.done(FixedCythonElementTypes.UNNAMED_PARAMETER);
+            }
 
             if (!atToken(PyTokenTypes.COMMA)) {
                 if (atToken(PyTokenTypes.RBRACKET)) break;
